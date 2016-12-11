@@ -1,43 +1,51 @@
 # mitamae-plugin-recipe-ssh_users
 
+Mitamae plugin which configures users and ssh_keys.
+
 ## Installation
 
-TODO
+```bash
+$ mkdir plugins
+$ git clone --depth 1 https://github.com/toshimaru/mitamae-plugin-recipe-ssh_users plugins/mitamae-plugin-recipe-ssh_users
+```
 
 ## Usage
 
 ### Recipe
 
+`recipe.rb`:
+
 ```rb
 include_recipe 'ssh_users'
 ```
 
-### Node
+### Node Sample
+
+`node.yml`:
 
 ```yaml
 ssh_users:
   - username: "toshimaru"
-    password: "1234"
-    # gid: 1000
-    # uid: 2000
-    shell: "/bin/bash"
+    uid: 2000
     authorized_keys: |
-      ssh-ed25519 YOUR_AUTHORIZED_KEYS
+      ssh-ed25519 YOUR_PUBLIC_AUTHORIZED_KEYS
   - username: "foo"
     password: "1234"
-    # gid: 1000
-    # uid: 2001
-    authorized_keys: "authorized_keys"
-    shell: "/bin/bash"
+    gid: 1001
+    uid: 2001
+    authorized_keys: "PUBLIC_AUTHORIZED_KEY"
   - username: "bar"
-    password: "1234"
-    # gid: 1000
-    # uid: 2003
-    shell: "/bin/bash"
-    authorized_keys: "authorized_keys"
 ```
 
-## How to generate password
+### Apply mitamae recipe
+
+```
+$ mitamae local recipe.rb -y node.yml
+```
+
+## Tips
+
+### How to generate password for user
 
 ```
 $ gem install unix-crypt
@@ -46,3 +54,8 @@ Enter password:
 Verify password:
 $6$salt$...
 ```
+
+## TODO
+
+- apply shell configuration
+- more README
