@@ -3,9 +3,10 @@ node[:ssh_users].each do |ssh_user|
 
   user "create user" do
     username user_name
+    create_home true
     password ssh_user[:password] if ssh_user[:password]
-    gid      ssh_user[:gid]      if ssh_user[:gid]
     uid      ssh_user[:uid]      if ssh_user[:uid]
+    gid      ssh_user[:gid]      if ssh_user[:gid]
   end
 
   directory "/home/#{user_name}/.ssh" do
